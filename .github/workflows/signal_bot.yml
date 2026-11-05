@@ -2,12 +2,12 @@ name: AlphaQuant V5.1 Signal Bot
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 concurrency:
   group: alphaquant-signal-bot
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   scan:
