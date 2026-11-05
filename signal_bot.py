@@ -12,6 +12,11 @@ Only one strategy remains: Smart Money Concept scalp on the 15m timeframe.
      (must be the latest candle; entry = its close)
   6. SL beyond OB / swept level / sweep wick, TP at SMC_RR
 
+V5.2 changes
+- Scan recap: after EVERY scan (each new 15m candle) a short recap is sent to Telegram
+  (pairs scanned, new signals, filter funnel, near misses, open/closed summary).
+  Env: SCAN_RECAP=0 disables it, SCAN_RECAP_NEAR=<n> sets the near-miss lines.
+
 V5.1 changes
 - Trades of the removed strategies (Breakout, Mean Rev, ...) are moved to
   h["archive"] on start-up: no more monitoring, notifications or statistics for them
@@ -88,6 +93,9 @@ RISK_PER_TRADE = float(os.getenv("RISK_PER_TRADE", "0.004"))
 ACCOUNT_EQUITY = float(os.getenv("ACCOUNT_EQUITY", "1000"))
 FEE_PER_SIDE = float(os.getenv("FEE_PER_SIDE", "0.0005"))          # taker 0.05%, for the fee estimate
 REPORT_EVERY_HOURS = float(os.getenv("REPORT_EVERY_HOURS", "4"))
+# Recap of every single scan (one per new 15m candle), sent to Telegram. 0 = off.
+SCAN_RECAP = os.getenv("SCAN_RECAP", "1").strip() != "0"
+SCAN_RECAP_NEAR = int(os.getenv("SCAN_RECAP_NEAR", "5"))           # near-miss lines per recap
 
 MONITOR_MAX_BARS = 1400
 RR = 2.0                              # fallback when a stored trade has no "rr"
@@ -983,6 +991,80 @@ def smc_report_text(h):
         text += "\n\n<b>Paling dekat lolos</b>\n" + "\n".join(x["text"] for x in d["near"][:4])
     return text
 
+def scan_recap_text(ref, scanned, skipped, created, signals, rows, h,
+                    note="", elapsed=None):
+    """Recap of ONE scan (sent after every scan). `rows` = REJECTS of this scan."""
+    candle = iso(ref)[:16].replace("T", " ") + " UTC" if ref else "-"
+    emoji = "🚨" if created else "🔍"
+
+    stages = {}
+    near = []
+    for (_, stage), items in rows.items():
+        stages[stage] = stages.get(stage, 0) + len(items)
+        if stage in SMC_STAGES and stage not in ("Data", "Struktur", "Sweep"):
+            depth = SMC_STAGES.index(stage)
+            for inst, detail in items:
+                near.append((depth, f"{inst} → {stage}: {detail}"))
+    near.sort(key=lambda x: -x[0])
+
+    text = (
+        f"<b>{emoji} SCAN RECAP · SMC Scalp {SMC_TF}</b>\n"
+        "━━━━━━━━━━━━━━━━━━\n"
+        f"Candle       : {candle}\n"
+        f"Pair dicek   : {scanned}\n"
+        f"Dilewati     : {skipped} (posisi open/cooldown)\n"
+        f"Sinyal baru  : <b>{created}</b>\n"
+    )
+    if elapsed is not None:
+        text += f"Durasi scan  : {elapsed:.0f} dtk\n"
+
+    if note:
+        text += f"\n<i>{_safe(note)}</i>\n"
+
+    if signals:
+        text += "\n<b>Sinyal baru</b>\n"
+        for s in signals:
+            text += (
+                f"• <b>{s['symbol']}</b> {s['direction']} | "
+                f"E <code>{s['entry']}</code> SL <code>{s['sl']}</code> "
+                f"TP <code>{s['tp']}</code>\n"
+            )
+
+    if stages:
+        parts_ = [f"{st} {stages[st]}" for st in SMC_STAGES + ["Error"] if stages.get(st)]
+        text += "\n<b>Gugur di filter</b>\n" + " · ".join(parts_) + "\n"
+
+    if near and SCAN_RECAP_NEAR > 0:
+        text += "\n<b>Paling dekat lolos</b>\n" + "\n".join(
+            x[1] for x in near[:SCAN_RECAP_NEAR]
+        ) + "\n"
+
+    # Open positions snapshot
+    opens = h.get("open", [])
+    closed = h.get("closed", [])
+    wins = sum(1 for x in closed if x.get("result") == "WIN")
+    total_r = sum(float(x.get("result_r", 0) or 0) for x in closed)
+    text += (
+        "\n━━━━━━━━━━━━━━━━━━\n"
+        f"Posisi open  : {len(opens)}/{SMC_MAX_OPEN}\n"
+    )
+    if closed:
+        text += (
+            f"Closed total : {len(closed)} ({wins}W/{len(closed) - wins}L) · "
+            f"<b>{total_r:+.2f}R</b>"
+        )
+    else:
+        text += "Closed total : 0"
+    return text
+
+def send_scan_recap(*args, **kwargs):
+    if not SCAN_RECAP:
+        return
+    try:
+        tg(scan_recap_text(*args, **kwargs))
+    except Exception as e:
+        log.error("Scan recap failed: %s", e)
+
 def scan_smc(h):
     """
     Scan the top pairs for an SMC scalp on every NEW 15m candle.
@@ -999,27 +1081,38 @@ def scan_smc(h):
         log.info("SMC scan skipped: %s open scalps (cap %s).", n_open(h), SMC_MAX_OPEN)
         if ref is not None:
             h["last_smc_candle"] = ref
+        send_scan_recap(
+            ref, 0, 0, 0, [], {}, h,
+            note=f"Scan dilewati: {n_open(h)} posisi open (batas {SMC_MAX_OPEN})."
+        )
         return 0
 
     pairs = top_pairs()
     if not pairs:
         log.warning("No pairs returned by OKX; scan aborted.")
+        send_scan_recap(ref, 0, 0, 0, [], {}, h,
+                        note="Scan gagal: OKX tidak mengembalikan daftar pair.")
         return 0
     meta = instruments()
 
     log.info("SMC scan: %s pairs on %s...", len(pairs), SMC_TF)
     REJECTS.clear()
     CUR_SETUP = "SMC_SCALP"
-    created, scanned = 0, 0
+    created, scanned, skipped = 0, 0, 0
+    new_signals = []
+    cap_hit = False
+    t0 = time.time()
 
     for inst in pairs:
         if n_open(h) >= SMC_MAX_OPEN:
             log.info("Open scalp cap (%s) reached - stopping the scan.", SMC_MAX_OPEN)
+            cap_hit = True
             break
 
         # Skip pairs that already have a position / are cooling down BEFORE
         # spending API calls on them.
         if symbol_blocked(h, inst):
+            skipped += 1
             continue
 
         scanned += 1
@@ -1045,6 +1138,7 @@ def scan_smc(h):
             h["open"].append(s)
             save_history(h)
             created += 1
+            new_signals.append(s)
             log.info("NEW SIGNAL %s %s rr=%s", s["symbol"], s["direction"], s["rr"])
             tg(signal_message(s))
             time.sleep(0.3)
@@ -1054,8 +1148,15 @@ def scan_smc(h):
             _rej(inst, "Error", str(e)[:60])
 
     log.info("SMC scan complete. Pairs: %s | New signals: %s", scanned, created)
-    _tally(h, scanned, created, dict(REJECTS))
+    rows = dict(REJECTS)
+    _tally(h, scanned, created, rows)
     REJECTS.clear()
+
+    send_scan_recap(
+        ref, scanned, skipped, created, new_signals, rows, h,
+        note=f"Scan berhenti: batas {SMC_MAX_OPEN} posisi open tercapai." if cap_hit else "",
+        elapsed=time.time() - t0
+    )
 
     if ref is not None:
         h["last_smc_candle"] = ref
@@ -1157,3 +1258,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
