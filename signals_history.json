@@ -1,0 +1,13 @@
+{
+  "state_version": "ALPHAQUANT_V8_BOOK_PROTOCOL",
+  "epoch_id": "61d2a0cf-1638-41d0-b4f2-1c54d220beae",
+  "created_at": "2026-11-10T03:08:23.118758+00:00",
+  "open": [],
+  "closed": [],
+  "unresolved": [],
+  "archive": [],
+  "outbox": [],
+  "last_smc_candle": null,
+  "last_report_ts": 0,
+  "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED"
+}
