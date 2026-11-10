@@ -155,7 +155,570 @@
       "fee_slippage_r_estimate": 0.1729,
       "entry_drift_atr": 0.235,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794301380000
+      "monitor_next_ms": 1794303960000
+    },
+    {
+      "signal_id": "ZEC-USDT-SWAP|SHORT|1794303000000|BOOK_CONTINUATION",
+      "symbol": "ZEC-USDT-SWAP",
+      "direction": "SHORT",
+      "timeframe": "15m",
+      "setup": "BOOK_CONTINUATION",
+      "note": "BOOK BOOK_CONTINUATION | triple_top | HTF/EMA/Supertrend/MA9-21-55 / EMA13/21 money magnet / triple_top",
+      "signal_candle_time": 1794303000000,
+      "signal_candle_iso": "2026-11-10T09:30:00+00:00",
+      "created_at": "2026-11-10T09:46:25.167000+00:00",
+      "entry": 1144.77,
+      "sl": 1161.59,
+      "tp": 1109.46,
+      "rr": 2.099286563614749,
+      "atr": 9.178771268709593,
+      "sl_atr": 1.832489285067956,
+      "ema50": 1158.6075697852148,
+      "ema200": 1199.5247838818696,
+      "rsi": 42.108311673836454,
+      "adx": null,
+      "volume_ratio": 0.6131966497867551,
+      "regime": "BEAR",
+      "htf_regime": "BEAR",
+      "structure": "BEAR",
+      "bos": "NONE",
+      "pullback": null,
+      "score": 63,
+      "score_reasons": [
+        "HTF/EMA/Supertrend/MA9-21-55",
+        "EMA13/21 money magnet",
+        "triple_top"
+      ],
+      "quality_buckets": [
+        "trend",
+        "area",
+        "chart"
+      ],
+      "chart_patterns": [
+        "triple_top"
+      ],
+      "candlestick_patterns": [],
+      "indicators_snapshot": {
+        "ema13": 1146.637704485956,
+        "ema21": 1149.082878377681,
+        "supertrend": -1,
+        "bollinger20_mid": 1149.5975,
+        "poc_proxy": 1171.525,
+        "obv_up": true,
+        "obv_down": false,
+        "fib_extension_up": 1298.4405,
+        "fib_extension_down": 1069.8095,
+        "stochastic_5_3_3": [
+          53.471094573152136,
+          49.279768612363405,
+          46.67293784434716,
+          49.03186544059812
+        ],
+        "macd": [
+          -0.2127240728213975,
+          -0.2522215481607386,
+          -4.297733109145383,
+          -4.045511560984645
+        ],
+        "vpfr_precision": "OHLCV_APPROXIMATION_NOT_TICK_VPFR",
+        "macd_divergence": {
+          "LONG": false,
+          "SHORT": false
+        },
+        "psychological_levels": {
+          "below": 1100.0,
+          "above": 1200.0,
+          "step": 100.0
+        }
+      },
+      "scale_in_out_plan": {
+        "mode": "ADVISORY_ONLY_NO_ORDERS_NO_PARTIAL_PNL",
+        "entry_1": 1144.77,
+        "entry_2_optional": 1148.975,
+        "take_profit_1_optional": 1127.95,
+        "take_profit_2": 1109.46,
+        "stop": 1161.59,
+        "allocation_note": "No second entry/partial exit is executed or booked in performance stats"
+      },
+      "risk_usdt": 4.0,
+      "risk_multiplier": 1.0,
+      "signal_type": "REVERSAL",
+      "market_regime": "NORMAL",
+      "volatility_ratio": 0.835,
+      "trend_aligned": true,
+      "engine_version": "ALPHAQUANT_V8_BOOK_PROTOCOL",
+      "status": "OPEN",
+      "exit_price": null,
+      "exit_time": null,
+      "result_r": null,
+      "result": null,
+      "monitor_tf_ms": 60000,
+      "book_protocol": {
+        "eligible": true,
+        "reason": "five stages passed",
+        "stages": {
+          "trend": {
+            "pass": true,
+            "structure": "BEAR",
+            "higher_tf": "BEAR"
+          },
+          "area": {
+            "pass": true,
+            "anchors": [],
+            "breakout_chart_level": true
+          },
+          "pattern": {
+            "pass": true,
+            "detected": [
+              "triple_top"
+            ],
+            "note": "No pattern also allowed when a candle/indicator trigger exists"
+          },
+          "trigger": {
+            "pass": true,
+            "candles": [],
+            "rsi": 42.11,
+            "rsi_extreme": false,
+            "stoch_cross": false,
+            "macd_cross": false,
+            "macd_divergence": false,
+            "rsi_divergence": false
+          },
+          "entry_exit": {
+            "pass": true,
+            "rr_gross": 2.1,
+            "minimum_rr": 2.0,
+            "note": "paper target, not a filled trade"
+          }
+        },
+        "source_provenance": "AKADEMI_CRYPTO_CH3_STAGES+BOT_DESIGNED_NUMERIC_THRESHOLDS"
+      },
+      "entry_reference": 1141.93,
+      "activated_at": "2026-11-10T09:46:25.167000+00:00",
+      "entry_source": "OKX_ASK_BID_PAPER_ESTIMATE_NOT_FILL",
+      "quote_ts": 1794303984372,
+      "quote_age_sec": 0.795,
+      "spread_bps": 0.087,
+      "fee_slippage_r_estimate": 0.1089,
+      "entry_drift_atr": 0.3094
+    },
+    {
+      "signal_id": "ONE-USDT-SWAP|SHORT|1794303000000|BOOK_REVERSAL",
+      "symbol": "ONE-USDT-SWAP",
+      "direction": "SHORT",
+      "timeframe": "15m",
+      "setup": "BOOK_REVERSAL",
+      "note": "BOOK BOOK_REVERSAL | liquidity_grab | support/resistance / liquidity grab / shooting_star / RSI overbought / volume confirmation",
+      "signal_candle_time": 1794303000000,
+      "signal_candle_iso": "2026-11-10T09:30:00+00:00",
+      "created_at": "2026-11-10T09:47:06.796000+00:00",
+      "entry": 0.0017941,
+      "sl": 0.001877,
+      "tp": 0.0016202,
+      "rr": 2.097708082026541,
+      "atr": 6.520638720971262e-05,
+      "sl_atr": 1.2713478471577058,
+      "ema50": 0.0015253624415549215,
+      "ema200": 0.0016228150212034586,
+      "rsi": 75.25217999832647,
+      "adx": null,
+      "volume_ratio": 1.730106415408314,
+      "regime": "BEAR",
+      "htf_regime": "RANGE",
+      "structure": "BEAR",
+      "bos": "NONE",
+      "pullback": null,
+      "score": 58,
+      "score_reasons": [
+        "support/resistance",
+        "liquidity grab",
+        "shooting_star",
+        "RSI overbought",
+        "volume confirmation"
+      ],
+      "quality_buckets": [
+        "area",
+        "candle",
+        "oscillator",
+        "volume"
+      ],
+      "chart_patterns": [],
+      "candlestick_patterns": [
+        "shooting_star"
+      ],
+      "indicators_snapshot": {
+        "ema13": 0.0016666355989862851,
+        "ema21": 0.0016020359587537944,
+        "supertrend": 1,
+        "bollinger20_mid": 0.0015482450000000002,
+        "poc_proxy": 0.001477625,
+        "obv_up": true,
+        "obv_down": false,
+        "fib_extension_up": 0.0021498864000000003,
+        "fib_extension_down": 0.0010435135999999998,
+        "stochastic_5_3_3": [
+          81.62908937159771,
+          73.18235129532269,
+          85.89144580831731,
+          79.49342062538538
+        ],
+        "macd": [
+          3.805234119915047e-05,
+          3.3470840151705126e-05,
+          0.00010090976625072448,
+          6.743892609901936e-05
+        ],
+        "vpfr_precision": "OHLCV_APPROXIMATION_NOT_TICK_VPFR",
+        "macd_divergence": {
+          "LONG": true,
+          "SHORT": false
+        },
+        "psychological_levels": {
+          "below": 0.0017000000000000001,
+          "above": 0.0018000000000000002,
+          "step": 0.0001
+        }
+      },
+      "scale_in_out_plan": {
+        "mode": "ADVISORY_ONLY_NO_ORDERS_NO_PARTIAL_PNL",
+        "entry_1": 0.0017941,
+        "entry_2_optional": 0.001814825,
+        "take_profit_1_optional": 0.0017112000000000002,
+        "take_profit_2": 0.0016202,
+        "stop": 0.001877,
+        "allocation_note": "No second entry/partial exit is executed or booked in performance stats"
+      },
+      "risk_usdt": 2.4,
+      "risk_multiplier": 0.6,
+      "signal_type": "REVERSAL",
+      "market_regime": "VOLATILE",
+      "volatility_ratio": 2.247,
+      "trend_aligned": true,
+      "engine_version": "ALPHAQUANT_V8_BOOK_PROTOCOL",
+      "status": "OPEN",
+      "exit_price": null,
+      "exit_time": null,
+      "result_r": null,
+      "result": null,
+      "monitor_tf_ms": 60000,
+      "book_protocol": {
+        "eligible": true,
+        "reason": "five stages passed",
+        "stages": {
+          "trend": {
+            "pass": true,
+            "structure": "BEAR",
+            "higher_tf": "RANGE"
+          },
+          "area": {
+            "pass": true,
+            "anchors": [
+              "horizontal_support_resistance",
+              "liquidity_grab"
+            ],
+            "breakout_chart_level": false
+          },
+          "pattern": {
+            "pass": true,
+            "detected": [],
+            "note": "No pattern also allowed when a candle/indicator trigger exists"
+          },
+          "trigger": {
+            "pass": true,
+            "candles": [
+              "shooting_star"
+            ],
+            "rsi": 75.25,
+            "rsi_extreme": true,
+            "stoch_cross": false,
+            "macd_cross": false,
+            "macd_divergence": false,
+            "rsi_divergence": false
+          },
+          "entry_exit": {
+            "pass": true,
+            "rr_gross": 2.099,
+            "minimum_rr": 2.0,
+            "note": "paper target, not a filled trade"
+          }
+        },
+        "source_provenance": "AKADEMI_CRYPTO_CH3_STAGES+BOT_DESIGNED_NUMERIC_THRESHOLDS"
+      },
+      "entry_reference": 0.001794,
+      "activated_at": "2026-11-10T09:47:06.796000+00:00",
+      "entry_source": "OKX_ASK_BID_PAPER_ESTIMATE_NOT_FILL",
+      "quote_ts": 1794304025670,
+      "quote_age_sec": 1.126,
+      "spread_bps": 6.686,
+      "fee_slippage_r_estimate": 0.0346,
+      "entry_drift_atr": 0.0015
+    },
+    {
+      "signal_id": "EDGE-USDT-SWAP|SHORT|1794303000000|BOOK_CONTINUATION",
+      "symbol": "EDGE-USDT-SWAP",
+      "direction": "SHORT",
+      "timeframe": "15m",
+      "setup": "BOOK_CONTINUATION",
+      "note": "BOOK BOOK_CONTINUATION | EMA13_21_pullback | HTF/EMA/Supertrend/MA9-21-55 / trendline area / EMA13/21 money magnet / tweezer_top",
+      "signal_candle_time": 1794303000000,
+      "signal_candle_iso": "2026-11-10T09:30:00+00:00",
+      "created_at": "2026-11-10T09:47:08.707000+00:00",
+      "entry": 0.3995,
+      "sl": 0.4085,
+      "tp": 0.3807,
+      "rr": 2.088888888888904,
+      "atr": 0.00942869392274909,
+      "sl_atr": 0.9545330534365097,
+      "ema50": 0.400565276131297,
+      "ema200": 0.3753170645579224,
+      "rsi": 48.11118826590846,
+      "adx": null,
+      "volume_ratio": 0.7189918446429737,
+      "regime": "BEAR",
+      "htf_regime": "RANGE",
+      "structure": "BEAR",
+      "bos": "NONE",
+      "pullback": null,
+      "score": 60,
+      "score_reasons": [
+        "HTF/EMA/Supertrend/MA9-21-55",
+        "trendline area",
+        "EMA13/21 money magnet",
+        "tweezer_top"
+      ],
+      "quality_buckets": [
+        "trend",
+        "area",
+        "candle"
+      ],
+      "chart_patterns": [],
+      "candlestick_patterns": [
+        "tweezer_top"
+      ],
+      "indicators_snapshot": {
+        "ema13": 0.3977479079915834,
+        "ema21": 0.39935504184884457,
+        "supertrend": -1,
+        "bollinger20_mid": 0.39916,
+        "poc_proxy": 0.40788,
+        "obv_up": true,
+        "obv_down": false,
+        "fib_extension_up": 0.4909376,
+        "fib_extension_down": 0.3272624,
+        "stochastic_5_3_3": [
+          59.50222675505705,
+          70.78021417644061,
+          42.376633479376665,
+          54.26046885459891
+        ],
+        "macd": [
+          0.00022282502013744538,
+          0.0003651159649417884,
+          -0.0026211293672757097,
+          -0.002986245332217498
+        ],
+        "vpfr_precision": "OHLCV_APPROXIMATION_NOT_TICK_VPFR",
+        "macd_divergence": {
+          "LONG": false,
+          "SHORT": false
+        },
+        "psychological_levels": {
+          "below": 0.39,
+          "above": 0.4,
+          "step": 0.01
+        }
+      },
+      "scale_in_out_plan": {
+        "mode": "ADVISORY_ONLY_NO_ORDERS_NO_PARTIAL_PNL",
+        "entry_1": 0.3995,
+        "entry_2_optional": 0.40175,
+        "take_profit_1_optional": 0.39050000000000007,
+        "take_profit_2": 0.3807,
+        "stop": 0.4085,
+        "allocation_note": "No second entry/partial exit is executed or booked in performance stats"
+      },
+      "risk_usdt": 3.0,
+      "risk_multiplier": 0.75,
+      "signal_type": "CONTINUATION",
+      "market_regime": "NORMAL",
+      "volatility_ratio": 0.862,
+      "trend_aligned": false,
+      "engine_version": "ALPHAQUANT_V8_BOOK_PROTOCOL",
+      "status": "OPEN",
+      "exit_price": null,
+      "exit_time": null,
+      "result_r": null,
+      "result": null,
+      "monitor_tf_ms": 60000,
+      "book_protocol": {
+        "eligible": true,
+        "reason": "five stages passed",
+        "stages": {
+          "trend": {
+            "pass": true,
+            "structure": "BEAR",
+            "higher_tf": "RANGE"
+          },
+          "area": {
+            "pass": true,
+            "anchors": [
+              "trendline"
+            ],
+            "breakout_chart_level": false
+          },
+          "pattern": {
+            "pass": true,
+            "detected": [],
+            "note": "No pattern also allowed when a candle/indicator trigger exists"
+          },
+          "trigger": {
+            "pass": true,
+            "candles": [
+              "tweezer_top"
+            ],
+            "rsi": 48.11,
+            "rsi_extreme": false,
+            "stoch_cross": false,
+            "macd_cross": false,
+            "macd_divergence": false,
+            "rsi_divergence": false
+          },
+          "entry_exit": {
+            "pass": true,
+            "rr_gross": 2.093,
+            "minimum_rr": 2.0,
+            "note": "paper target, not a filled trade"
+          }
+        },
+        "source_provenance": "AKADEMI_CRYPTO_CH3_STAGES+BOT_DESIGNED_NUMERIC_THRESHOLDS"
+      },
+      "entry_reference": 0.3978,
+      "activated_at": "2026-11-10T09:47:08.707000+00:00",
+      "entry_source": "OKX_ASK_BID_PAPER_ESTIMATE_NOT_FILL",
+      "quote_ts": 1794304027773,
+      "quote_age_sec": 0.934,
+      "spread_bps": 5.005,
+      "fee_slippage_r_estimate": 0.071,
+      "entry_drift_atr": 0.1803
+    },
+    {
+      "signal_id": "GOOGL-USDT-SWAP|LONG|1794303000000|SMC|BOOK",
+      "symbol": "GOOGL-USDT-SWAP",
+      "direction": "LONG",
+      "timeframe": "15m",
+      "setup": "SMC_BOOK",
+      "note": "SMC + BOOK context | SMC BOS BULL | Sweep low @ 290.83 | OB [290.15-292.04] | Disp bar 198 | RSI 50.4",
+      "signal_candle_time": 1794303000000,
+      "signal_candle_iso": "2026-11-10T09:30:00+00:00",
+      "created_at": "2026-11-10T09:47:19.553000+00:00",
+      "entry": 291.42,
+      "sl": 289.95,
+      "tp": 294.5,
+      "rr": 2.0952380952380456,
+      "atr": 0.6478316843271843,
+      "sl_atr": 2.2691079111493577,
+      "ema50": 291.09725981118413,
+      "ema200": 289.17042547162896,
+      "rsi": 50.35538969643582,
+      "adx": null,
+      "volume_ratio": 0.6455310716886284,
+      "regime": "BULL",
+      "signal_type": "CONTINUATION",
+      "market_regime": "NORMAL",
+      "volatility_ratio": 1.024,
+      "trend_aligned": true,
+      "risk_multiplier": 1.0,
+      "engine_version": "ALPHAQUANT_V8_BOOK_PROTOCOL",
+      "structure": "BOS",
+      "bos": "BOS",
+      "pullback": null,
+      "score": 74,
+      "score_reasons": [
+        "price action heuristic",
+        "NORMAL"
+      ],
+      "risk_usdt": 4.0,
+      "status": "OPEN",
+      "exit_price": null,
+      "exit_time": null,
+      "result_r": null,
+      "result": null,
+      "monitor_tf_ms": 60000,
+      "book_score": 60,
+      "book_evidence": [
+        "HTF/EMA/Supertrend/MA9-21-55",
+        "support/resistance",
+        "trendline area",
+        "fibonacci 0.5-0.618",
+        "POC proxy",
+        "hammer"
+      ],
+      "quality_buckets": [
+        "trend",
+        "area",
+        "candle"
+      ],
+      "book_protocol": {
+        "eligible": true,
+        "reason": "five stages passed",
+        "stages": {
+          "trend": {
+            "pass": true,
+            "structure": "BULL",
+            "higher_tf": "BULL"
+          },
+          "area": {
+            "pass": true,
+            "anchors": [
+              "horizontal_support_resistance",
+              "trendline",
+              "fibonacci_golden_pocket"
+            ],
+            "breakout_chart_level": false
+          },
+          "pattern": {
+            "pass": true,
+            "detected": [],
+            "note": "No pattern also allowed when a candle/indicator trigger exists"
+          },
+          "trigger": {
+            "pass": true,
+            "candles": [
+              "hammer"
+            ],
+            "rsi": 50.36,
+            "rsi_extreme": false,
+            "stoch_cross": false,
+            "macd_cross": false,
+            "macd_divergence": false,
+            "rsi_divergence": false
+          },
+          "entry_exit": {
+            "pass": true,
+            "rr_gross": 2.096,
+            "minimum_rr": 2.0,
+            "note": "paper target, not a filled trade"
+          }
+        },
+        "source_provenance": "AKADEMI_CRYPTO_CH3_STAGES+BOT_DESIGNED_NUMERIC_THRESHOLDS"
+      },
+      "entry_reference": 291.3,
+      "activated_at": "2026-11-10T09:47:19.553000+00:00",
+      "entry_source": "OKX_ASK_BID_PAPER_ESTIMATE_NOT_FILL",
+      "quote_ts": 1794304039169,
+      "quote_age_sec": 0.384,
+      "spread_bps": 0.343,
+      "fee_slippage_r_estimate": 0.3172,
+      "entry_drift_atr": 0.1852,
+      "scale_in_out_plan": {
+        "mode": "ADVISORY_ONLY_NO_ORDERS_NO_PARTIAL_PNL",
+        "entry_1": 291.42,
+        "entry_2_optional": 291.0525,
+        "take_profit_1_optional": 292.89000000000004,
+        "take_profit_2": 294.5,
+        "stop": 289.95,
+        "allocation_note": "No second entry/partial exit is executed or booked in performance stats"
+      }
     }
   ],
   "closed": [
@@ -465,21 +1028,21 @@
   "unresolved": [],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794300300000,
+  "last_smc_candle": 1794303000000,
   "last_report_ts": 1794296855.6178365,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-10",
   "smc_rej": {
-    "scans": 3,
-    "pairs": 141,
-    "signals": 0,
+    "scans": 4,
+    "pairs": 188,
+    "signals": 4,
     "stages": {
-      "Sweep": 11,
-      "Struktur": 24,
-      "Konfirmasi": 51,
-      "Retest": 35,
-      "Displacement": 28,
-      "SL/RR": 5
+      "Sweep": 13,
+      "Struktur": 28,
+      "Konfirmasi": 69,
+      "Retest": 44,
+      "Displacement": 43,
+      "SL/RR": 8
     },
     "near": [
       {
@@ -503,8 +1066,8 @@
         "text": "SPCX-USDT-SWAP → SL/RR: SHORT SL 0.36% (min 0.40%, fee memakan R)"
       },
       {
-        "depth": 8,
-        "text": "SNDK-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+        "depth": 9,
+        "text": "SPCX-USDT-SWAP → SL/RR: LONG SL 3.25 ATR (perlu 0.35-2.5)"
       }
     ]
   }
