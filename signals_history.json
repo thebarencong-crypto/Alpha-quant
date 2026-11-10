@@ -152,27 +152,29 @@
       "quote_age_sec": 0.533,
       "spread_bps": 0.946,
       "fee_slippage_r_estimate": 0.1643,
-      "entry_drift_atr": 0.0235
+      "entry_drift_atr": 0.0235,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794285060000
     }
   ],
   "closed": [],
   "unresolved": [],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794279600000,
+  "last_smc_candle": 1794284100000,
   "last_report_ts": 1794280508.8966906,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-10",
   "smc_rej": {
-    "scans": 1,
-    "pairs": 50,
+    "scans": 2,
+    "pairs": 99,
     "signals": 1,
     "stages": {
-      "Retest": 20,
-      "Struktur": 4,
-      "Konfirmasi": 17,
-      "Displacement": 8,
-      "Sweep": 4,
+      "Retest": 46,
+      "Struktur": 11,
+      "Konfirmasi": 24,
+      "Displacement": 15,
+      "Sweep": 7,
       "SL/RR": 1
     },
     "near": [
