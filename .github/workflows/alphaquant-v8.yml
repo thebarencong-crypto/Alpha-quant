@@ -1,0 +1,209 @@
+
+name: ALPHAQUANT V8 Book Protocol 15m
+
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC. GitHub may delay scheduled jobs.
+    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: alphaquant-v8-persisted-state
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+
+    env:
+      SIGNAL_HISTORY_FILE: signals_history.json
+      STATE_GENESIS_FILE: alphaquant_v8_genesis.json
+      CI_FAIL_ON_ERROR: '1'
+
+    steps:
+      - name: Checkout latest default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Require all tests and verify Python syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in signal_bot.py state_manager.py test_signal_bot_book.py test_signal_bot_regression.py test_timing_v7_1.py test_v8_protocol.py; do
+            test -f "$f" || {
+              echo "::error file=$f::Required V8 file missing."
+              exit 1
+            }
+          done
+
+          python -m py_compile signal_bot.py state_manager.py
+
+          python -m unittest -q \
+            test_signal_bot_book.py \
+            test_signal_bot_regression.py \
+            test_timing_v7_1.py \
+            test_v8_protocol.py
+
+      - name: Require Telegram secrets
+        shell: bash
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          if [[ -z "$TELEGRAM_TOKEN" || -z "$CHAT_ID" ]]; then
+            echo "::error::Telegram secrets are required."
+            exit 1
+          fi
+
+      - name: Bootstrap NEW V8 state exactly once
+        run: |
+          python state_manager.py bootstrap
+          python state_manager.py verify
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add -- \
+            signals_history.json \
+            alphaquant_v8_genesis.json \
+            .alphaquant_v8_started
+
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: initialize V8 state [skip ci]'
+            git push origin "HEAD:refs/heads/${{ github.event.repository.default_branch }}"
+          fi
+
+      - name: Record V8 state size before scan
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+
+          with open('signals_history.json', encoding='utf-8') as f:
+              data = json.load(f)
+
+          keys = ('open', 'closed', 'unresolved', 'archive')
+          total = sum(len(data[k]) for k in keys)
+
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as f:
+              f.write(f'V8_PREVIOUS_RECORDS={total}\n')
+
+          print('Previous V8 records:', total)
+          PY
+
+      - name: Wait for upcoming confirmed 15m candle
+        shell: bash
+        run: |
+          python - <<'PY'
+          import time
+
+          remaining = 900 - (time.time() % 900)
+
+          if 0 < remaining <= 330:
+              delay = remaining + 8
+              print(f'Waiting {delay:.1f}s for 15m candle close.', flush=True)
+              time.sleep(delay)
+          else:
+              print(f'Next candle boundary in {remaining:.1f}s.', flush=True)
+          PY
+
+      - name: Run ALPHAQUANT V8
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+
+          RUN_FOREVER: '0'
+          GITHUB_CANDLE_RESCUE: '1'
+          GITHUB_PRE_CLOSE_WAIT_SEC: '75'
+          GITHUB_POST_CLOSE_POLL_SEC: '40'
+
+          BOOK_HTF: '1H'
+          BOOK_PROTOCOL_STRICT: '1'
+          BOOK_MIN_RR: '2.0'
+          BOOK_MIN_SCORE: '57'
+
+          BOOK_RSI_OVERSOLD: '30'
+          BOOK_RSI_OVERBOUGHT: '70'
+
+          BOOK_STOCH_OVERSOLD: '20'
+          BOOK_STOCH_OVERBOUGHT: '80'
+
+          BOOK_ALLOW_SMC: '1'
+
+          TOP_PAIRS: '50'
+          SCAN_RECAP: '1'
+
+        run: python -u signal_bot.py
+
+      - name: Verify V8 history integrity
+        shell: bash
+        run: |
+          python state_manager.py verify
+
+          python - <<'PY'
+          import json, os, sys
+
+          with open('signals_history.json', encoding='utf-8') as f:
+              data = json.load(f)
+
+          current = sum(
+              len(data[k])
+              for k in ('open', 'closed', 'unresolved', 'archive')
+          )
+
+          previous = int(os.environ['V8_PREVIOUS_RECORDS'])
+
+          print(f'Records before={previous}, after={current}')
+
+          if current < previous:
+              print('::error::Trading history unexpectedly decreased.')
+              sys.exit(1)
+          PY
+
+      - name: Back up V8 history and genesis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alphaquant-v8-state-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            signals_history.json
+            alphaquant_v8_genesis.json
+            .alphaquant_v8_started
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Persist NEW V8 history
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add -- \
+            signals_history.json \
+            alphaquant_v8_genesis.json \
+            .alphaquant_v8_started
+
+          if git diff --cached --quiet; then
+            echo 'No state changes.'
+          else
+            git commit -m 'chore: persist V8 history [skip ci]'
+            git push origin "HEAD:refs/heads/${{ github.event.repository.default_branch }}"
+          fi
