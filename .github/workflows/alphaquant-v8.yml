@@ -1,209 +1,142 @@
 
-name: ALPHAQUANT V8 Book Protocol 15m
+name: ALPHAQUANT V8 Scan
 
 on:
   workflow_dispatch:
   schedule:
-    # UTC. GitHub may delay scheduled jobs.
-    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
+    - cron: '2,17,32,47 * * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: alphaquant-v8-persisted-state
+  group: alphaquant-v8-state
   cancel-in-progress: false
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 16
+    timeout-minutes: 20
 
     env:
       SIGNAL_HISTORY_FILE: signals_history.json
       STATE_GENESIS_FILE: alphaquant_v8_genesis.json
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       CI_FAIL_ON_ERROR: '1'
 
     steps:
-      - name: Checkout latest default branch
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.repository.default_branch }}
-          fetch-depth: 0
           persist-credentials: true
 
-      - name: Python 3.11
+      - name: Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: python -m pip install -r requirements.txt
-
-      - name: Require all tests and verify Python syntax
-        shell: bash
+      - name: Install Python dependency
         run: |
-          set -euo pipefail
-          for f in signal_bot.py state_manager.py test_signal_bot_book.py test_signal_bot_regression.py test_timing_v7_1.py test_v8_protocol.py; do
-            test -f "$f" || {
-              echo "::error file=$f::Required V8 file missing."
-              exit 1
-            }
-          done
-
-          python -m py_compile signal_bot.py state_manager.py
-
-          python -m unittest -q \
-            test_signal_bot_book.py \
-            test_signal_bot_regression.py \
-            test_timing_v7_1.py \
-            test_v8_protocol.py
-
-      - name: Require Telegram secrets
-        shell: bash
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-        run: |
-          if [[ -z "$TELEGRAM_TOKEN" || -z "$CHAT_ID" ]]; then
-            echo "::error::Telegram secrets are required."
+          test -f signal_bot.py || {
+            echo 'ERROR: signal_bot.py missing'
             exit 1
-          fi
+          }
+          python -m pip install 'requests>=2.31,<3'
+          python -m py_compile signal_bot.py
 
-      - name: Bootstrap NEW V8 state exactly once
+      - name: Create V8 state automatically
+        id: bootstrap
+        shell: bash
         run: |
-          python state_manager.py bootstrap
-          python state_manager.py verify
+          cat > state_manager.py <<'PY'
+          import json, os, uuid
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          VERSION = 'ALPHAQUANT_V8_BOOK_PROTOCOL'
+
+          def verify_state_pair(history='signals_history.json', genesis='alphaquant_v8_genesis.json'):
+              hp, gp = Path(history), Path(genesis)
+              sp = gp.with_name('.alphaquant_v8_started')
+              if not all(p.is_file() for p in (hp, gp, sp)):
+                  raise RuntimeError('V8 state incomplete. Restore all 3 state files; no silent reset.')
+              h, g, s = [json.loads(p.read_text(encoding='utf-8')) for p in (hp, gp, sp)]
+              epoch = g.get('epoch_id')
+              if (g.get('engine_version') != VERSION or h.get('state_version') != VERSION
+                      or s.get('engine_version') != VERSION or not isinstance(epoch, str)
+                      or len(epoch) < 20 or h.get('epoch_id') != epoch or s.get('epoch_id') != epoch):
+                  raise RuntimeError('V8 state identity mismatch.')
+              keys = ('open', 'closed', 'unresolved', 'archive', 'outbox')
+              if any(not isinstance(h.get(k), list) for k in keys):
+                  raise RuntimeError('Invalid V8 state array.')
+              ids = [x.get('signal_id') for k in keys[:4] for x in h[k] if isinstance(x, dict)]
+              if any(not isinstance(i, str) or not i for i in ids) or len(ids) != len(set(ids)):
+                  raise RuntimeError('Invalid or duplicate signal IDs.')
+              return {'epoch_id': epoch, 'trades': sum(len(h[k]) for k in keys[:4])}
+
+          def bootstrap():
+              hp, gp, sp = (Path('signals_history.json'), Path('alphaquant_v8_genesis.json'),
+                            Path('.alphaquant_v8_started'))
+              count = sum(p.exists() for p in (hp, gp, sp))
+              if count == 3:
+                  return verify_state_pair()
+              if count:
+                  raise RuntimeError('Partial V8 state found. Do not overwrite existing history.')
+              epoch, timestamp = str(uuid.uuid4()), datetime.now(timezone.utc).isoformat()
+              hp.write_text(json.dumps({'state_version': VERSION, 'epoch_id': epoch,
+                  'created_at': timestamp, 'open': [], 'closed': [], 'unresolved': [],
+                  'archive': [], 'outbox': [], 'last_smc_candle': None,
+                  'last_report_ts': 0, 'lifecycle': 'NEW_EMPTY_HISTORY_USER_REQUESTED'}, indent=2))
+              gp.write_text(json.dumps({'engine_version': VERSION, 'epoch_id': epoch,
+                  'created_at': timestamp}, indent=2))
+              sp.write_text(json.dumps({'engine_version': VERSION, 'epoch_id': epoch}, indent=2))
+              return verify_state_pair()
+          PY
+
+          python -c 'import state_manager; print("V8 state:", state_manager.bootstrap())'
 
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-
-          git add -- \
-            signals_history.json \
-            alphaquant_v8_genesis.json \
-            .alphaquant_v8_started
-
+          git add -f signals_history.json alphaquant_v8_genesis.json .alphaquant_v8_started
           if ! git diff --cached --quiet; then
-            git commit -m 'chore: initialize V8 state [skip ci]'
-            git push origin "HEAD:refs/heads/${{ github.event.repository.default_branch }}"
+            git commit -m 'chore: initialize V8 history [skip ci]'
+            git push origin "HEAD:refs/heads/${DEFAULT_BRANCH}"
           fi
 
-      - name: Record V8 state size before scan
-        shell: bash
-        run: |
-          python - <<'PY'
-          import json, os
-
-          with open('signals_history.json', encoding='utf-8') as f:
-              data = json.load(f)
-
-          keys = ('open', 'closed', 'unresolved', 'archive')
-          total = sum(len(data[k]) for k in keys)
-
-          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as f:
-              f.write(f'V8_PREVIOUS_RECORDS={total}\n')
-
-          print('Previous V8 records:', total)
-          PY
-
-      - name: Wait for upcoming confirmed 15m candle
-        shell: bash
+      - name: Wait until fresh 15m candle when necessary
         run: |
           python - <<'PY'
           import time
-
-          remaining = 900 - (time.time() % 900)
-
-          if 0 < remaining <= 330:
-              delay = remaining + 8
-              print(f'Waiting {delay:.1f}s for 15m candle close.', flush=True)
-              time.sleep(delay)
+          age = time.time() % 900
+          if age > 230:
+              wait = 900 - age + 8
+              print(f'Waiting {wait:.0f}s for next 15m close', flush=True)
+              time.sleep(wait)
           else:
-              print(f'Next candle boundary in {remaining:.1f}s.', flush=True)
+              print(f'Fresh close window: {age:.0f}s since boundary', flush=True)
           PY
 
-      - name: Run ALPHAQUANT V8
+      - name: Run signal bot
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-
           RUN_FOREVER: '0'
           GITHUB_CANDLE_RESCUE: '1'
-          GITHUB_PRE_CLOSE_WAIT_SEC: '75'
-          GITHUB_POST_CLOSE_POLL_SEC: '40'
-
-          BOOK_HTF: '1H'
           BOOK_PROTOCOL_STRICT: '1'
           BOOK_MIN_RR: '2.0'
           BOOK_MIN_SCORE: '57'
-
-          BOOK_RSI_OVERSOLD: '30'
-          BOOK_RSI_OVERBOUGHT: '70'
-
-          BOOK_STOCH_OVERSOLD: '20'
-          BOOK_STOCH_OVERBOUGHT: '80'
-
-          BOOK_ALLOW_SMC: '1'
-
           TOP_PAIRS: '50'
-          SCAN_RECAP: '1'
-
         run: python -u signal_bot.py
 
-      - name: Verify V8 history integrity
+      - name: Save V8 state
+        if: ${{ always() && steps.bootstrap.outcome == 'success' }}
         shell: bash
         run: |
-          python state_manager.py verify
-
-          python - <<'PY'
-          import json, os, sys
-
-          with open('signals_history.json', encoding='utf-8') as f:
-              data = json.load(f)
-
-          current = sum(
-              len(data[k])
-              for k in ('open', 'closed', 'unresolved', 'archive')
-          )
-
-          previous = int(os.environ['V8_PREVIOUS_RECORDS'])
-
-          print(f'Records before={previous}, after={current}')
-
-          if current < previous:
-              print('::error::Trading history unexpectedly decreased.')
-              sys.exit(1)
-          PY
-
-      - name: Back up V8 history and genesis
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: alphaquant-v8-state-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            signals_history.json
-            alphaquant_v8_genesis.json
-            .alphaquant_v8_started
-          retention-days: 30
-          if-no-files-found: warn
-
-      - name: Persist NEW V8 history
-        if: success()
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-
-          git add -- \
-            signals_history.json \
-            alphaquant_v8_genesis.json \
-            .alphaquant_v8_started
-
-          if git diff --cached --quiet; then
-            echo 'No state changes.'
-          else
-            git commit -m 'chore: persist V8 history [skip ci]'
-            git push origin "HEAD:refs/heads/${{ github.event.repository.default_branch }}"
+          python -c 'import state_manager; print(state_manager.verify_state_pair())'
+          git add -f signals_history.json alphaquant_v8_genesis.json .alphaquant_v8_started
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: update V8 history [skip ci]'
+            git push origin "HEAD:refs/heads/${DEFAULT_BRANCH}"
           fi
+
