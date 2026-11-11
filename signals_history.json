@@ -2569,9 +2569,46 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794393900000,
-  "last_report_ts": 1794394809.9481635,
+  "last_smc_candle": 1794420900000,
+  "last_report_ts": 1794421808.8515027,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-11",
-  "smc_rej": null
+  "smc_rej": {
+    "scans": 1,
+    "pairs": 50,
+    "signals": 0,
+    "stages": {
+      "Displacement": 8,
+      "Sweep": 10,
+      "Retest": 15,
+      "Konfirmasi": 10,
+      "Struktur": 8
+    },
+    "near": [
+      {
+        "depth": 8,
+        "text": "ZEC-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+      },
+      {
+        "depth": 8,
+        "text": "UNI-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+      },
+      {
+        "depth": 8,
+        "text": "INTC-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+      },
+      {
+        "depth": 8,
+        "text": "QQQ-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+      },
+      {
+        "depth": 8,
+        "text": "MSTR-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+      },
+      {
+        "depth": 8,
+        "text": "AMD-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+      }
+    ]
+  }
 }
