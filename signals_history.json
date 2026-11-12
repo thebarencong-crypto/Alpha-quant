@@ -152,7 +152,7 @@
       "fee_slippage_r_estimate": 0.0416,
       "entry_drift_atr": 0.2472,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794518100000
+      "monitor_next_ms": 1794520800000
     },
     {
       "signal_id": "LIT-USDT-SWAP|SHORT|1794500100000|BOOK_CONTINUATION",
@@ -309,7 +309,7 @@
       "fee_slippage_r_estimate": 0.0598,
       "entry_drift_atr": 0.0806,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794518100000
+      "monitor_next_ms": 1794520800000
     },
     {
       "signal_id": "AAVE-USDT-SWAP|SHORT|1794517200000|BOOK_CONTINUATION",
@@ -467,7 +467,9 @@
       "quote_age_sec": 0.921,
       "spread_bps": 0.877,
       "fee_slippage_r_estimate": 0.2645,
-      "entry_drift_atr": 0.1015
+      "entry_drift_atr": 0.1015,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794520800000
     },
     {
       "signal_id": "ARB-USDT-SWAP|LONG|1794517200000|BOOK_CONTINUATION",
@@ -619,7 +621,9 @@
       "quote_age_sec": 0.217,
       "spread_bps": 0.668,
       "fee_slippage_r_estimate": 0.1801,
-      "entry_drift_atr": 0.0564
+      "entry_drift_atr": 0.0564,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794520800000
     }
   ],
   "closed": [
@@ -4264,20 +4268,20 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794517200000,
+  "last_smc_candle": 1794519900000,
   "last_report_ts": 1794514511.3957727,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-12",
   "smc_rej": {
-    "scans": 2,
-    "pairs": 96,
+    "scans": 3,
+    "pairs": 142,
     "signals": 2,
     "stages": {
-      "Displacement": 36,
-      "Retest": 15,
-      "Struktur": 13,
-      "Konfirmasi": 23,
-      "Sweep": 16
+      "Displacement": 46,
+      "Retest": 32,
+      "Struktur": 18,
+      "Konfirmasi": 34,
+      "Sweep": 25
     },
     "near": [
       {
