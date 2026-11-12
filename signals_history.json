@@ -150,7 +150,9 @@
       "quote_age_sec": 0.922,
       "spread_bps": 3.101,
       "fee_slippage_r_estimate": 0.0416,
-      "entry_drift_atr": 0.2472
+      "entry_drift_atr": 0.2472,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794514500000
     },
     {
       "signal_id": "LIT-USDT-SWAP|SHORT|1794500100000|BOOK_CONTINUATION",
@@ -305,7 +307,9 @@
       "quote_age_sec": 0.722,
       "spread_bps": 2.866,
       "fee_slippage_r_estimate": 0.0598,
-      "entry_drift_atr": 0.0806
+      "entry_drift_atr": 0.0806,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794514500000
     }
   ],
   "closed": [
@@ -3950,38 +3954,29 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794500100000,
-  "last_report_ts": 1794492010.2551885,
+  "last_smc_candle": 1794513600000,
+  "last_report_ts": 1794514511.3957727,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-12",
   "smc_rej": {
-    "scans": 3,
-    "pairs": 148,
-    "signals": 2,
+    "scans": 1,
+    "pairs": 48,
+    "signals": 0,
     "stages": {
-      "Struktur": 35,
-      "Sweep": 23,
-      "Konfirmasi": 14,
-      "Retest": 50,
-      "Displacement": 26,
-      "SL/RR": 2
+      "Displacement": 15,
+      "Retest": 9,
+      "Struktur": 6,
+      "Konfirmasi": 15,
+      "Sweep": 8
     },
     "near": [
       {
-        "depth": 9,
-        "text": "DOGE-USDT-SWAP → SL/RR: LONG SL 2.54 ATR (perlu 0.35-2.5)"
-      },
-      {
-        "depth": 9,
-        "text": "KORU-USDT-SWAP → SL/RR: LONG SL 3.10 ATR (perlu 0.35-2.5)"
+        "depth": 8,
+        "text": "NVDA-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
       },
       {
         "depth": 8,
-        "text": "SNDK-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
-      },
-      {
-        "depth": 8,
-        "text": "SPCX-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+        "text": "SPCX-USDT-SWAP → Konfirmasi: book 5-stage: trend"
       },
       {
         "depth": 8,
@@ -3989,7 +3984,15 @@
       },
       {
         "depth": 8,
-        "text": "AMD-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+        "text": "HYPE-USDT-SWAP → Konfirmasi: book 5-stage: trend, trigger"
+      },
+      {
+        "depth": 8,
+        "text": "KORU-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+      },
+      {
+        "depth": 8,
+        "text": "NEAR-USDT-SWAP → Konfirmasi: book 5-stage: trend"
       }
     ]
   }
