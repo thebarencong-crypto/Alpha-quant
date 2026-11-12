@@ -3645,22 +3645,31 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794491100000,
+  "last_smc_candle": 1794498300000,
   "last_report_ts": 1794492010.2551885,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-12",
   "smc_rej": {
-    "scans": 1,
-    "pairs": 49,
+    "scans": 2,
+    "pairs": 98,
     "signals": 0,
     "stages": {
-      "Struktur": 12,
-      "Sweep": 8,
-      "Konfirmasi": 4,
-      "Retest": 19,
-      "Displacement": 6
+      "Struktur": 24,
+      "Sweep": 17,
+      "Konfirmasi": 6,
+      "Retest": 35,
+      "Displacement": 14,
+      "SL/RR": 2
     },
     "near": [
+      {
+        "depth": 9,
+        "text": "DOGE-USDT-SWAP → SL/RR: LONG SL 2.54 ATR (perlu 0.35-2.5)"
+      },
+      {
+        "depth": 9,
+        "text": "KORU-USDT-SWAP → SL/RR: LONG SL 3.10 ATR (perlu 0.35-2.5)"
+      },
       {
         "depth": 8,
         "text": "SNDK-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
@@ -3676,14 +3685,6 @@
       {
         "depth": 8,
         "text": "AMD-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
-      },
-      {
-        "depth": 7,
-        "text": "ZEC-USDT-SWAP → Retest: LONG belum ada retest + konfirmasi"
-      },
-      {
-        "depth": 7,
-        "text": "SOXL-USDT-SWAP → Retest: LONG order block pernah ditutup di bawah batas"
       }
     ]
   }
