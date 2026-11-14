@@ -4884,22 +4884,31 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794609900000,
+  "last_smc_candle": 1794614400000,
   "last_report_ts": 1794610810.505048,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
-  "last_online_day": "2026-11-13",
+  "last_online_day": "2026-11-14",
   "smc_rej": {
-    "scans": 1,
-    "pairs": 50,
+    "scans": 2,
+    "pairs": 100,
     "signals": 0,
     "stages": {
-      "Konfirmasi": 6,
-      "Struktur": 9,
-      "Retest": 13,
-      "Sweep": 13,
-      "Displacement": 9
+      "Konfirmasi": 15,
+      "Struktur": 17,
+      "Retest": 25,
+      "Sweep": 21,
+      "Displacement": 23,
+      "SL/RR": 2
     },
     "near": [
+      {
+        "depth": 9,
+        "text": "WLD-USDT-SWAP → SL/RR: LONG SL 2.57 ATR (perlu 0.35-2.5)"
+      },
+      {
+        "depth": 9,
+        "text": "INJ-USDT-SWAP → SL/RR: LONG SL 2.98 ATR (perlu 0.35-2.5)"
+      },
       {
         "depth": 8,
         "text": "BTC-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
@@ -4915,14 +4924,6 @@
       {
         "depth": 8,
         "text": "PUMP-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
-      },
-      {
-        "depth": 8,
-        "text": "LIT-USDT-SWAP → Konfirmasi: book 5-stage: trigger"
-      },
-      {
-        "depth": 8,
-        "text": "INJ-USDT-SWAP → Konfirmasi: book 5-stage: trigger"
       }
     ]
   }
