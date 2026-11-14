@@ -154,7 +154,9 @@
       "quote_age_sec": 0.837,
       "spread_bps": 0.93,
       "fee_slippage_r_estimate": 0.344,
-      "entry_drift_atr": 0.0665
+      "entry_drift_atr": 0.0665,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794649560000
     }
   ],
   "closed": [
@@ -5038,26 +5040,30 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794636900000,
+  "last_smc_candle": 1794648600000,
   "last_report_ts": 1794638014.9865448,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-14",
   "smc_rej": {
-    "scans": 1,
-    "pairs": 50,
+    "scans": 2,
+    "pairs": 99,
     "signals": 1,
     "stages": {
-      "Struktur": 10,
-      "Sweep": 14,
-      "Konfirmasi": 11,
-      "Retest": 11,
-      "SL/RR": 1,
-      "Displacement": 8
+      "Struktur": 19,
+      "Sweep": 21,
+      "Konfirmasi": 20,
+      "Retest": 19,
+      "SL/RR": 2,
+      "Displacement": 24
     },
     "near": [
       {
         "depth": 9,
         "text": "NVDA-USDT-SWAP → SL/RR: SHORT SL 0.24% (min 0.40%, fee memakan R)"
+      },
+      {
+        "depth": 9,
+        "text": "SKHY-USDT-SWAP → SL/RR: LONG SL 0.35% (min 0.40%, fee memakan R)"
       },
       {
         "depth": 8,
@@ -5074,10 +5080,6 @@
       {
         "depth": 8,
         "text": "AKE-USDT-SWAP → Konfirmasi: book 5-stage: trend, area"
-      },
-      {
-        "depth": 8,
-        "text": "PEPE-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
       }
     ]
   }
