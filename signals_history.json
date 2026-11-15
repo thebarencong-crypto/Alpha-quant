@@ -155,7 +155,7 @@
       "fee_slippage_r_estimate": 0.1009,
       "entry_drift_atr": 0.0068,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794756600000
+      "monitor_next_ms": 1794759300000
     },
     {
       "signal_id": "ENA-USDT-SWAP|SHORT|1794739500000|BOOK_REVERSAL",
@@ -310,7 +310,7 @@
       "fee_slippage_r_estimate": 0.1082,
       "entry_drift_atr": 0.2217,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794756600000
+      "monitor_next_ms": 1794759300000
     },
     {
       "signal_id": "STRK-USDT-SWAP|SHORT|1794745800000|BOOK_CONTINUATION",
@@ -465,7 +465,7 @@
       "fee_slippage_r_estimate": 0.1322,
       "entry_drift_atr": 0.0322,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794756600000
+      "monitor_next_ms": 1794759300000
     }
   ],
   "closed": [
@@ -9625,20 +9625,20 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794755700000,
+  "last_smc_candle": 1794758400000,
   "last_report_ts": 1794746709.6579113,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-15",
   "smc_rej": {
-    "scans": 5,
-    "pairs": 211,
+    "scans": 6,
+    "pairs": 252,
     "signals": 6,
     "stages": {
-      "Konfirmasi": 50,
-      "Retest": 49,
-      "Displacement": 69,
-      "Struktur": 39,
-      "Sweep": 17,
+      "Konfirmasi": 64,
+      "Retest": 57,
+      "Displacement": 78,
+      "Struktur": 51,
+      "Sweep": 21,
       "SL/RR": 2
     },
     "near": [
