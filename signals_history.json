@@ -155,7 +155,7 @@
       "fee_slippage_r_estimate": 0.1009,
       "entry_drift_atr": 0.0068,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794780120000
+      "monitor_next_ms": 1794780900000
     }
   ],
   "closed": [
@@ -11021,7 +11021,7 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794779100000,
+  "last_smc_candle": 1794780000000,
   "last_report_ts": 1794780145.101874,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-15",
