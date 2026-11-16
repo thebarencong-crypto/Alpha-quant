@@ -11021,9 +11021,46 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794836700000,
-  "last_report_ts": 1794827708.788151,
+  "last_smc_candle": 1794863700000,
+  "last_report_ts": 1794864608.4587522,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-16",
-  "smc_rej": null
+  "smc_rej": {
+    "scans": 1,
+    "pairs": 50,
+    "signals": 0,
+    "stages": {
+      "Struktur": 11,
+      "Sweep": 9,
+      "Konfirmasi": 11,
+      "Retest": 8,
+      "Displacement": 14
+    },
+    "near": [
+      {
+        "depth": 8,
+        "text": "ETH-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+      },
+      {
+        "depth": 8,
+        "text": "NVDA-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+      },
+      {
+        "depth": 8,
+        "text": "XRP-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+      },
+      {
+        "depth": 8,
+        "text": "SKHYNIX-USDT-SWAP → Konfirmasi: book 5-stage: trend, trigger"
+      },
+      {
+        "depth": 8,
+        "text": "SPCX-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+      },
+      {
+        "depth": 8,
+        "text": "CASHCAT-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+      }
+    ]
+  }
 }
