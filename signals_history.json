@@ -11021,8 +11021,8 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794805200000,
-  "last_report_ts": 1794794564.9025812,
+  "last_smc_candle": 1794811500000,
+  "last_report_ts": 1794812408.4184482,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-16",
   "smc_rej": null
