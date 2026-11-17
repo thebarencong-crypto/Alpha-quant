@@ -154,7 +154,7 @@
       "fee_slippage_r_estimate": 0.1086,
       "entry_drift_atr": 0.0229,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794904200000
+      "monitor_next_ms": 1794906000000
     },
     {
       "signal_id": "ADA-USDT-SWAP|LONG|1794901500000|BOOK_CONTINUATION",
@@ -310,7 +310,7 @@
       "fee_slippage_r_estimate": 0.1888,
       "entry_drift_atr": 0.1245,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794904200000
+      "monitor_next_ms": 1794906000000
     }
   ],
   "closed": [
@@ -11788,21 +11788,21 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794903300000,
+  "last_smc_candle": 1794905100000,
   "last_report_ts": 1794904209.7150712,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-17",
   "smc_rej": {
-    "scans": 1,
-    "pairs": 47,
+    "scans": 2,
+    "pairs": 94,
     "signals": 0,
     "stages": {
-      "Konfirmasi": 16,
-      "Struktur": 11,
-      "Retest": 10,
-      "Sweep": 6,
-      "Displacement": 6,
-      "SL/RR": 2
+      "Konfirmasi": 30,
+      "Struktur": 21,
+      "Retest": 20,
+      "Sweep": 15,
+      "Displacement": 10,
+      "SL/RR": 4
     },
     "near": [
       {
@@ -11814,20 +11814,20 @@
         "text": "GOOGL-USDT-SWAP → SL/RR: LONG SL 0.32% (min 0.40%, fee memakan R)"
       },
       {
+        "depth": 9,
+        "text": "XAU-USDT-SWAP → SL/RR: LONG SL 0.24% (min 0.40%, fee memakan R)"
+      },
+      {
+        "depth": 9,
+        "text": "QQQ-USDT-SWAP → SL/RR: LONG SL 0.17% (min 0.40%, fee memakan R)"
+      },
+      {
         "depth": 8,
         "text": "BTC-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
       },
       {
         "depth": 8,
         "text": "SNDK-USDT-SWAP → Konfirmasi: book 5-stage: trend"
-      },
-      {
-        "depth": 8,
-        "text": "SOXL-USDT-SWAP → Konfirmasi: book 5-stage: trend"
-      },
-      {
-        "depth": 8,
-        "text": "HYPE-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
       }
     ]
   }
