@@ -154,7 +154,7 @@
       "fee_slippage_r_estimate": 0.1086,
       "entry_drift_atr": 0.0229,
       "monitor_api_failures": 0,
-      "monitor_next_ms": 1794902400000
+      "monitor_next_ms": 1794904200000
     },
     {
       "signal_id": "ADA-USDT-SWAP|LONG|1794901500000|BOOK_CONTINUATION",
@@ -308,7 +308,9 @@
       "quote_age_sec": 1.174,
       "spread_bps": 6.521,
       "fee_slippage_r_estimate": 0.1888,
-      "entry_drift_atr": 0.1245
+      "entry_drift_atr": 0.1245,
+      "monitor_api_failures": 0,
+      "monitor_next_ms": 1794904200000
     }
   ],
   "closed": [
@@ -11786,46 +11788,46 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794901500000,
-  "last_report_ts": 1794888010.2264926,
+  "last_smc_candle": 1794903300000,
+  "last_report_ts": 1794904209.7150712,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-17",
   "smc_rej": {
-    "scans": 4,
-    "pairs": 195,
-    "signals": 4,
+    "scans": 1,
+    "pairs": 47,
+    "signals": 0,
     "stages": {
-      "Retest": 54,
-      "Struktur": 61,
-      "Displacement": 26,
-      "Konfirmasi": 52,
-      "Sweep": 17,
-      "SL/RR": 1
+      "Konfirmasi": 16,
+      "Struktur": 11,
+      "Retest": 10,
+      "Sweep": 6,
+      "Displacement": 6,
+      "SL/RR": 2
     },
     "near": [
       {
         "depth": 9,
-        "text": "ZHONGJI-USDT-SWAP → SL/RR: SHORT SL 3.82 ATR (perlu 0.35-2.5)"
+        "text": "QQQ-USDT-SWAP → SL/RR: LONG SL 0.39% (min 0.40%, fee memakan R)"
+      },
+      {
+        "depth": 9,
+        "text": "GOOGL-USDT-SWAP → SL/RR: LONG SL 0.32% (min 0.40%, fee memakan R)"
       },
       {
         "depth": 8,
-        "text": "XRP-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+        "text": "BTC-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
       },
       {
         "depth": 8,
-        "text": "AKE-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+        "text": "SNDK-USDT-SWAP → Konfirmasi: book 5-stage: trend"
       },
       {
         "depth": 8,
-        "text": "KORU-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
+        "text": "SOXL-USDT-SWAP → Konfirmasi: book 5-stage: trend"
       },
       {
         "depth": 8,
-        "text": "KORU-USDT-SWAP → Konfirmasi: book 5-stage: trend"
-      },
-      {
-        "depth": 8,
-        "text": "QQQ-USDT-SWAP → Konfirmasi: book 5-stage: trend"
+        "text": "HYPE-USDT-SWAP → Konfirmasi: konfirmasi lama; perlu retest/konfirmasi terkini"
       }
     ]
   }
