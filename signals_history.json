@@ -13023,20 +13023,20 @@
   ],
   "archive": [],
   "outbox": [],
-  "last_smc_candle": 1794950100000,
+  "last_smc_candle": 1794954600000,
   "last_report_ts": 1794947413.9056425,
   "lifecycle": "NEW_EMPTY_HISTORY_USER_REQUESTED",
   "last_online_day": "2026-11-17",
   "smc_rej": {
-    "scans": 3,
-    "pairs": 150,
+    "scans": 4,
+    "pairs": 200,
     "signals": 0,
     "stages": {
-      "Sweep": 17,
-      "Konfirmasi": 47,
-      "Displacement": 26,
-      "Struktur": 26,
-      "Retest": 39,
+      "Sweep": 23,
+      "Konfirmasi": 51,
+      "Displacement": 42,
+      "Struktur": 32,
+      "Retest": 57,
       "SL/RR": 1
     },
     "near": [
